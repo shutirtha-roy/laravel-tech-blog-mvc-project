@@ -7,12 +7,21 @@ use Illuminate\Http\Request;
 
 class AboutContactMeController extends Controller{
 
+    
     public function aboutMe() {
         return view('about.me');
     } 
 
     public function contact() {
         return view('about.contact');
+    }
+
+    public function addContact($request) {
+        $contact = new Contact();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->message = $request->message;
+        $contact->save();
     }
 
     public function store(Request $request) {
@@ -23,11 +32,7 @@ class AboutContactMeController extends Controller{
             'message' => 'required',
         ]);
 
-        $contact = new Contact();
-        $contact->name = $request->name;
-        $contact->email = $request->email;
-        $contact->message = $request->message;
-        $contact->save();
+        $this->addContact($request);
 
         return Redirect()->back();
     }
