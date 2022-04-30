@@ -14,16 +14,21 @@ class CategoriesController extends Controller
         return view('categories.allCategories');
     }
 
+    public function addNewCategory($request)
+    {
+        $individualCategory = new Category();
+        $individualCategory->category_type = $request->category_type;
+        $individualCategory->save();
+    }
+
     public function storeCategories(Request $request) 
     {
         $request->validate([
             'category_type' => 'required',
         ]);
 
+        $this->addNewCategory($request);
 
-        $tag = new Category();
-        $tag->category_type = $request->category_type;
-        $tag->save();
         return redirect()->back()->with('success', 'Successful');
     }
 
