@@ -14,16 +14,21 @@ class TagsController extends Controller
         return view('tags.allTags');
     }
 
+    public function addNewTag($request)
+    {
+        $tag = new Tag();
+        $tag->tag_name = $request->tag_name;
+        $tag->save();
+    }
+
     public function storeTags(Request $request) 
     {
         $request->validate([
             'tag_name' => 'required',
         ]);
 
-
-        $tag = new Tag();
-        $tag->tag_name = $request->tag_name;
-        $tag->save();
+        $this->addNewTag($request);
+        
         return redirect()->back()->with('success', 'Successful');
     }
 
